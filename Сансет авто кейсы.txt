@@ -1,0 +1,369 @@
+local cloneref = cloneref or function(object) return object end
+local Players = cloneref(game:GetService("Players"))
+local ReplicatedStorage = cloneref(game:GetService("ReplicatedStorage"))
+local RunService = cloneref(game:GetService("RunService"))
+local UserInputService = cloneref(game:GetService("UserInputService"))
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local selectedCase = nil
+local isRunning = false
+local openCount = 10
+local autoTask = nil
+
+local function OpenCase(name, count)
+    local Events = ReplicatedStorage:FindFirstChild("Events")
+    if not Events then return false, "Events not found" end
+    local openFunc = Events:FindFirstChild("OpenCase")
+    if not openFunc then return false, "OpenCase not found" end
+    return openFunc:InvokeServer(name, count)
+end
+
+local caseImages = {
+    Trash = "106599130323577", Daily = "114447727982920", Beggar = "88837808135921", Plodder = "106913820750482",
+    ["Office Clerk"] = "113128984263308", Director = "132224544380006", Oligarch = "72724304053316", Manager = "99806181652051",
+    ["Frozen Heart"] = "87214395143906", ["Bubble Gum"] = "82224068961086", Cats = "95375267833149", Dream = "137897894683277",
+    Glitch = "75712104636721", ["Bloody Night"] = "94792767297608", ["Ninja Turtles"] = "81637665994885", ["Desk Calendars"] = "137761401385296",
+    Gold = "70908433442260", Dark = "88276638893486", Palm = "72236024427706", Burj = "93924885649377", Luxury = "117750720745301",
+    Monarch = "92789602242541", Angel = "113027733090291", ["M5 F90"] = "91905618241831", G63 = "97343275696585", ["Porsche 911"] = "76723874472836",
+    URUS = "113680285408799", Durov = "77154250163489", Magnate = "123757755758214", Cirque = "102198691984946", REDO = "132457608690149",
+    TSUM = "122507805641975", Dio = "123317710551278", ["The Boys"] = "70923515271544", Radioactive = "110824486039912",
+    Butterfly = "111699785404113", Sunglasses = "116680795325715", ["Spider Man"] = "86242749105448", Mineblox = "113917374938547",
+    ["Blue Eyes"] = "73856906337704", ["Sunny Day"] = "73024061358319", ["Death Note"] = "98726594446431", Cyber = "117934010640694"
+}
+
+local COLORS = {
+    Window = Color3.fromRGB(4, 6, 16),
+    Border = Color3.fromRGB(50, 120, 240),
+    White = Color3.fromRGB(255, 255, 255),
+    Text = Color3.fromRGB(160, 180, 210),
+    Green = Color3.fromRGB(70, 210, 100),
+    Red = Color3.fromRGB(255, 70, 70),
+    Orange = Color3.fromRGB(255, 180, 50),
+    Dim = Color3.fromRGB(80, 100, 140)
+}
+
+local function addCorner(p, r)
+    local v = Instance.new("UICorner", p)
+    v.CornerRadius = UDim.new(0, r)
+    return v
+end
+
+local function addStroke(p, c, t, tr)
+    local v = Instance.new("UIStroke", p)
+    v.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    v.Color = c
+    v.Thickness = t or 1
+    v.Transparency = tr or 0
+    return v
+end
+
+pcall(function()
+    local p = game.CoreGui:FindFirstChild("SunsetAutoCases")
+    if p then p:Destroy() end
+end)
+pcall(function()
+    local p = playerGui:FindFirstChild("SunsetAutoCases")
+    if p then p:Destroy() end
+end)
+
+local GUI = Instance.new("ScreenGui")
+GUI.Name = "SunsetAutoCases"
+GUI.ResetOnSpawn = false
+GUI.IgnoreGuiInset = true
+GUI.DisplayOrder = 999
+if not pcall(function() GUI.Parent = game.CoreGui end) then
+    GUI.Parent = playerGui
+end
+
+local Window = Instance.new("Frame")
+Window.Name = "Window"
+Window.Size = UDim2.fromOffset(180, 165)
+Window.AnchorPoint = Vector2.new(1, 0)
+Window.Position = UDim2.new(1, -8, 0, 8)
+Window.BackgroundColor3 = COLORS.Window
+Window.BackgroundTransparency = 0.05
+Window.BorderSizePixel = 0
+Window.ClipsDescendants = true
+Window.Parent = GUI
+addCorner(Window, 10)
+addStroke(Window, COLORS.Border, 1, 0.3)
+
+local bgImage = Instance.new("ImageLabel", Window)
+bgImage.Size = UDim2.new(1, 0, 1, 0)
+bgImage.BackgroundTransparency = 1
+bgImage.Image = "rbxassetid://135730318591850"
+bgImage.ImageTransparency = 0.15
+bgImage.ScaleType = Enum.ScaleType.Stretch
+addCorner(bgImage, 10)
+
+local Header = Instance.new("Frame")
+Header.Name = "Header"
+Header.Size = UDim2.new(1, 0, 0, 24)
+Header.BackgroundTransparency = 1
+Header.Active = true
+Header.Parent = Window
+
+local BrandMark = Instance.new("Frame")
+BrandMark.Name = "BrandMark"
+BrandMark.Size = UDim2.fromOffset(16, 16)
+BrandMark.Position = UDim2.fromOffset(4, 4)
+BrandMark.BackgroundColor3 = Color3.fromRGB(8, 20, 58)
+BrandMark.BackgroundTransparency = 0.2
+BrandMark.BorderSizePixel = 0
+BrandMark.ClipsDescendants = true
+BrandMark.Parent = Header
+addCorner(BrandMark, 4)
+addStroke(BrandMark, COLORS.Border, 1, 0.3)
+
+local BrandImage = Instance.new("ImageLabel")
+BrandImage.Name = "Logo"
+BrandImage.Size = UDim2.fromScale(1, 1)
+BrandImage.BackgroundTransparency = 1
+BrandImage.Image = "rbxassetid://135730318591850"
+BrandImage.ScaleType = Enum.ScaleType.Fit
+BrandImage.Parent = BrandMark
+addCorner(BrandImage, 4)
+
+local Title = Instance.new("TextLabel", Header)
+Title.Size = UDim2.fromOffset(100, 16)
+Title.Position = UDim2.fromOffset(24, 4)
+Title.BackgroundTransparency = 1
+Title.Text = "SUNSET AUTO"
+Title.TextSize = 7
+Title.TextColor3 = COLORS.White
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.fromOffset(12, 12)
+CloseBtn.Position = UDim2.new(1, -12, 0, 6)
+CloseBtn.BackgroundColor3 = COLORS.Dim
+CloseBtn.BackgroundTransparency = 0.3
+CloseBtn.Text = "✕"
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 6
+CloseBtn.TextColor3 = COLORS.White
+CloseBtn.AutoButtonColor = false
+CloseBtn.Parent = Header
+addCorner(CloseBtn, 3)
+CloseBtn.MouseButton1Click:Connect(function()
+    GUI:Destroy()
+end)
+
+local dragging = false
+local dragStart
+local startPos
+
+Header.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = Window.Position
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        Window.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.Size = UDim2.new(1, 0, 1, -24)
+Main.Position = UDim2.fromOffset(0, 24)
+Main.BackgroundTransparency = 1
+Main.Parent = Window
+
+local CasesList = Instance.new("ScrollingFrame")
+CasesList.Size = UDim2.new(1, -8, 0, 68)
+CasesList.Position = UDim2.fromOffset(4, 0)
+CasesList.BackgroundTransparency = 1
+CasesList.BorderSizePixel = 0
+CasesList.ScrollBarThickness = 2
+CasesList.CanvasSize = UDim2.new(0, 0, 0, 0)
+CasesList.AutomaticCanvasSize = Enum.AutomaticSize.Y
+CasesList.Parent = Main
+
+local caseListLayout = Instance.new("UIListLayout")
+caseListLayout.Padding = UDim.new(0, 1)
+caseListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+caseListLayout.Parent = CasesList
+
+local caseButtons = {}
+local caseList = {
+    "Trash", "Daily", "Beggar", "Plodder", "Office Clerk", "Director", "Oligarch", "Manager",
+    "Frozen Heart", "Bubble Gum", "Cats", "Dream", "Glitch", "Bloody Night", "Ninja Turtles",
+    "Desk Calendars", "Gold", "Dark", "Palm", "Burj", "Luxury", "Monarch", "Angel", "M5 F90",
+    "G63", "Porsche 911", "URUS", "Durov", "Magnate", "Cirque", "REDO", "TSUM", "Dio", "The Boys",
+    "Radioactive", "Butterfly", "Sunglasses", "Spider Man", "Mineblox", "Blue Eyes", "Sunny Day",
+    "Death Note", "Cyber"
+}
+
+for _, name in ipairs(caseList) do
+    local row = Instance.new("Frame")
+    row.Size = UDim2.new(1, 0, 0, 18)
+    row.BackgroundColor3 = Color3.fromRGB(10, 18, 40)
+    row.BackgroundTransparency = 0.4
+    row.Parent = CasesList
+    addCorner(row, 3)
+    addStroke(row, COLORS.Border, 1, 0.1)
+
+    local icon = Instance.new("ImageLabel")
+    icon.Size = UDim2.new(0, 14, 0, 14)
+    icon.Position = UDim2.fromOffset(2, 2)
+    icon.BackgroundTransparency = 1
+    icon.Image = "rbxassetid://" .. (caseImages[name] or "135730318591850")
+    icon.ScaleType = Enum.ScaleType.Fit
+    icon.Parent = row
+    addCorner(icon, 2)
+
+    local nameLabel = Instance.new("TextLabel")
+    nameLabel.Size = UDim2.new(0.5, 0, 1, 0)
+    nameLabel.Position = UDim2.fromOffset(18, 0)
+    nameLabel.BackgroundTransparency = 1
+    nameLabel.Text = name
+    nameLabel.TextSize = 6
+    nameLabel.TextColor3 = COLORS.White
+    nameLabel.Font = Enum.Font.Gotham
+    nameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    nameLabel.Parent = row
+
+    local checkBtn = Instance.new("TextButton")
+    checkBtn.Size = UDim2.new(0, 14, 0, 14)
+    checkBtn.Position = UDim2.new(0.88, 0, 0.11, 0)
+    checkBtn.BackgroundColor3 = COLORS.Dim
+    checkBtn.BackgroundTransparency = 0.2
+    checkBtn.Text = "○"
+    checkBtn.TextColor3 = COLORS.White
+    checkBtn.TextScaled = true
+    checkBtn.Font = Enum.Font.GothamBold
+    checkBtn.Parent = row
+    addCorner(checkBtn, 3)
+
+    checkBtn.MouseButton1Click:Connect(function()
+        for _, btn in pairs(caseButtons) do
+            btn.BackgroundColor3 = COLORS.Dim
+            btn.Text = "○"
+        end
+        checkBtn.BackgroundColor3 = COLORS.Green
+        checkBtn.Text = "●"
+        selectedCase = name
+    end)
+    table.insert(caseButtons, checkBtn)
+end
+
+local Controls = Instance.new("Frame")
+Controls.Size = UDim2.new(1, -8, 0, 55)
+Controls.Position = UDim2.new(0, 0, 1, -55)
+Controls.BackgroundTransparency = 1
+Controls.Parent = Main
+
+local CountLabel = Instance.new("TextLabel", Controls)
+CountLabel.Size = UDim2.fromOffset(30, 16)
+CountLabel.Position = UDim2.fromOffset(2, 0)
+CountLabel.BackgroundTransparency = 1
+CountLabel.Text = "x"
+CountLabel.TextSize = 6
+CountLabel.TextColor3 = COLORS.White
+CountLabel.Font = Enum.Font.GothamBold
+CountLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local CountInput = Instance.new("TextBox")
+CountInput.Size = UDim2.fromOffset(24, 16)
+CountInput.Position = UDim2.fromOffset(18, 0)
+CountInput.BackgroundColor3 = Color3.fromRGB(8, 20, 58)
+CountInput.BackgroundTransparency = 0.3
+CountInput.Text = "10"
+CountInput.TextColor3 = COLORS.White
+CountInput.TextSize = 7
+CountInput.Font = Enum.Font.GothamBold
+CountInput.TextXAlignment = Enum.TextXAlignment.Center
+CountInput.Parent = Controls
+addCorner(CountInput, 2)
+addStroke(CountInput, COLORS.Border, 1, 0.2)
+
+CountInput.FocusLost:Connect(function()
+    local v = tonumber(CountInput.Text) or 1
+    if v < 1 then v = 1 elseif v > 10 then v = 10 end
+    CountInput.Text = tostring(v)
+    openCount = v
+end)
+
+local StartBtn = Instance.new("TextButton")
+StartBtn.Size = UDim2.new(0.4, 0, 0, 18)
+StartBtn.Position = UDim2.new(0.58, 0, 0, 0)
+StartBtn.BackgroundColor3 = COLORS.Green
+StartBtn.BackgroundTransparency = 0.3
+StartBtn.Text = "▶"
+StartBtn.TextColor3 = COLORS.White
+StartBtn.TextSize = 8
+StartBtn.Font = Enum.Font.GothamBold
+StartBtn.Parent = Controls
+addCorner(StartBtn, 3)
+addStroke(StartBtn, COLORS.Green, 1, 0.2)
+
+local StatusLabel = Instance.new("TextLabel", Controls)
+StatusLabel.Size = UDim2.new(1, 0, 0, 12)
+StatusLabel.Position = UDim2.fromOffset(0, 20)
+StatusLabel.BackgroundTransparency = 1
+StatusLabel.Text = "⏸"
+StatusLabel.TextSize = 6
+StatusLabel.TextColor3 = COLORS.Dim
+StatusLabel.Font = Enum.Font.Gotham
+StatusLabel.TextXAlignment = Enum.TextXAlignment.Center
+
+local function StopAuto()
+    if autoTask then
+        task.cancel(autoTask)
+        autoTask = nil
+    end
+    isRunning = false
+    StartBtn.Text = "▶"
+    StartBtn.BackgroundColor3 = COLORS.Green
+    StatusLabel.Text = "⏸"
+    StatusLabel.TextColor3 = COLORS.Dim
+end
+
+local function StartAuto()
+    if not selectedCase then
+        StatusLabel.Text = "❌"
+        StatusLabel.TextColor3 = COLORS.Red
+        task.wait(2)
+        StatusLabel.Text = "⏸"
+        StatusLabel.TextColor3 = COLORS.Dim
+        return
+    end
+    
+    if isRunning then
+        StopAuto()
+        return
+    end
+    
+    isRunning = true
+    StartBtn.Text = "■"
+    StartBtn.BackgroundColor3 = COLORS.Red
+    StatusLabel.Text = "▶"
+    StatusLabel.TextColor3 = COLORS.Green
+
+    autoTask = task.spawn(function()
+        while isRunning do
+            pcall(function()
+                OpenCase(selectedCase, openCount)
+            end)
+            task.wait(0.1) -- Задержка 0.1 секунды
+        end
+    end)
+end
+
+StartBtn.MouseButton1Click:Connect(StartAuto)
+
+print("Sunset Auto Cases Loaded!")
