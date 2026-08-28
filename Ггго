@@ -1,0 +1,1184 @@
+local cloneref=cloneref or function(object)return object end
+local Players=cloneref(game:GetService("Players"))
+local ReplicatedStorage=cloneref(game:GetService("ReplicatedStorage"))
+local RunService=cloneref(game:GetService("RunService"))
+local UserInputService=cloneref(game:GetService("UserInputService"))
+local TweenService=cloneref(game:GetService("TweenService"))
+local player=Players.LocalPlayer
+local playerGui=player:WaitForChild("PlayerGui")
+
+local gifts={}
+gifts["Gift"]={Price=25,Image="103940759769216"}
+gifts["Rose"]={Price=25,Image="103652071849313"}
+gifts["Rocket"]={Price=50,Image="138751193627843"}
+gifts["Flowers"]={Price=50,Image="121729934336637"}
+gifts["Diamond"]={Price=100,Image="86071898628290"}
+gifts["Lol Pop"]={Price=325,Image="119786618365821"}
+gifts["Snoop Dogg"]={Price=425,Image="74491569017648"}
+gifts["Jester Hat"]={Price=500,Image="91398591447906"}
+gifts["Ring"]={Price=100,Image="115269956284457"}
+gifts["Snake Box"]={Price=325,Image="117868405841811"}
+gifts["Xmax Stocking"]={Price=350,Image="106078941431777"}
+gifts["Gigner Cookie"]={Price=450,Image="137639922758276"}
+gifts["Pet Snake"]={Price=450,Image="123038440918829"}
+gifts["Hex Pox"]={Price=700,Image="136985175728337"}
+gifts["Sakura Flower"]={Price=1075,Image="89896517362001"}
+gifts["Hanging Star"]={Price=1225,Image="139473883116321"}
+gifts["Eternal Rose"]={Price=3325,Image="85497541474773"}
+gifts["Kissed Frog"]={Price=8625,Image="115450471652876"}
+gifts["Perfume Bottle"]={Price=17350,Image="137505232397334"}
+gifts["Hypno Lollipop"]={Price=475,Image="93924889050705"}
+gifts["Star Notepad"]={Price=600,Image="76738560834486"}
+gifts["Light Sword"]={Price=725,Image="91543876923563"}
+gifts["Jolly Chimp"]={Price=900,Image="99572429300042"}
+gifts["Valentine Box"]={Price=1175,Image="102094416171283"}
+gifts["Trapped Heart"]={Price=2075,Image="121585017318097"}
+gifts["Voodoo Doll"]={Price=3725,Image="76855748485334"}
+gifts["Scared Cat"]={Price=10500,Image="78079063832035"}
+gifts["Loot Bag"]={Price=19375,Image="91248581958205"}
+gifts["Mini Oscar"]={Price=30250,Image="139993313650107"}
+gifts["Party Sparkler"]={Price=500,Image="129296544741520"}
+gifts["Spy Agaric"]={Price=725,Image="89709364600474"}
+gifts["Berry Box"]={Price=875,Image="99761385322275"}
+gifts["Record Player"]={Price=2200,Image="103485916724328"}
+gifts["Cupid Charm"]={Price=2875,Image="77793207752917"}
+gifts["Toy Bear"]={Price=4250,Image="72912917378457"}
+gifts["Bonded Ring"]={Price=12975,Image="98060786753098"}
+gifts["Astral Shard"]={Price=21100,Image="100038108049217"}
+gifts["Lush Bouquet"]={Price=650,Image="120056805438204"}
+gifts["Jelly Bunny"]={Price=800,Image="107784973626391"}
+gifts["Evil Eye"]={Price=925,Image="129205862888417"}
+gifts["Mad Pumpkin"]={Price=3500,Image="138826885906736"}
+gifts["Ionic Dryer"]={Price=3850,Image="120110210717217"}
+gifts["Neko Helmet"]={Price=5750,Image="132163215245467"}
+gifts["Christmas Wreath"]={Price=4236590,Image="118712048502190"}
+gifts["Heart Locket (Winter)"]={Price=1133460,Image="135113246104976"}
+gifts["Genie Lamp (Snow Globe)"]={Price=204348,Image="102320503955676"}
+gifts["Gem Signet"]={Price=14775,Image="129912666283223"}
+gifts["Heroic Helmet"]={Price=48625,Image="110568169111532"}
+gifts["Lunar Snake"]={Price=350,Image="129900489917281"}
+gifts["Tama Gadget"]={Price=450,Image="88495449822467"}
+gifts["Holiday Drink"]={Price=450,Image="96916863101721"}
+gifts["Witch Hat"]={Price=725,Image="86006759042811"}
+gifts["Love Potion"]={Price=2075,Image="97671003668253"}
+gifts["Mighty Arm"]={Price=83750,Image="93713255591577"}
+gifts["Flying Broom"]={Price=2300,Image="80578936666011"}
+gifts["Desk Calendar"]={Price=300,Image="71562015917891"}
+gifts["Bow Tie"]={Price=775,Image="93723610777988"}
+gifts["Bunny Muffin"]={Price=825,Image="136363201399086"}
+gifts["Love Candle"]={Price=1825,Image="80041378326290"}
+gifts["Low Rider"]={Price=5850,Image="97758186725741"}
+gifts["Swicc Watch"]={Price=7850,Image="137132112906168"}
+gifts["Magic Potion"]={Price=14975,Image="136435612518266"}
+gifts["Artisan Brick"]={Price=35000,Image="140034082742841"}
+gifts["Bow Tie (Velvet Gold)"]={Price=1825,Image="138256903306882"}
+gifts["Lol Pop (Gold Star)"]={Price=625,Image="124277132215346"}
+gifts["Bunny Muffin (Gold)"]={Price=900,Image="97062106748354"}
+gifts["Love Candle (Golden Glow)"]={Price=2925,Image="98206793529924"}
+gifts["Ionic Dryer (Gold Rush)"]={Price=7075,Image="88632597422959"}
+gifts["Toy Bear (Golden Cub)"]={Price=7850,Image="84732046125816"}
+gifts["Low Rider (Gold Rush)"]={Price=11025,Image="136599244703288"}
+gifts["Swicc Watch (Day Trader)"]={Price=15050,Image="124331270386425"}
+gifts["Magic Potion (Gold Medal)"]={Price=27025,Image="87627893871017"}
+gifts["Artisan Brick (Gold Bar)"]={Price=76725,Image="123865861636912"}
+gifts["Heart"]={Price=15,Image="94413871110931"}
+gifts["Evil Eye (8 Ball)"]={Price=1725,Image="88701765824891"}
+gifts["Hanging Star (Black Hole)"]={Price=3125,Image="122985278153414"}
+gifts["Bow Tie (Dark Lord)"]={Price=3925,Image="112846505169749"}
+gifts["Mad Pumpkin (Daredevil)"]={Price=4600,Image="78540216998331"}
+gifts["Record Player (Dark Noir)"]={Price=5825,Image="103911450905356"}
+gifts["Signet Ring (Obsidian)"]={Price=7975,Image="78257150248469"}
+gifts["Swiss Watch (Memory Flash)"]={Price=11775,Image="76737983942703"}
+gifts["Toy Bear (Ursa Major)"]={Price=22625,Image="79778986588345"}
+gifts["Gem Signet (Black Lotus)"]={Price=34225,Image="121640567580198"}
+gifts["Heroic Helmet (Black Thorn)"]={Price=74075,Image="116004670495676"}
+gifts["Loot Bag (Black Purrse)"]={Price=112050,Image="113087618020129"}
+gifts["Loot Bag (Winter)"]={Price=8612050,Image="93570674479470"}
+gifts["Cupid Charm (Dryad Heart)"]={Price=5275,Image="93063373048460"}
+gifts["Love Potion (Banana)"]={Price=8225,Image="85728989108666"}
+gifts["Sakura Flower (Sunflower)"]={Price=12275,Image="86078082445995"}
+gifts["Kissed Frog (Lava Leap)"]={Price=18975,Image="133989934598634"}
+gifts["Gem Signet (Elven Shade)"]={Price=21750,Image="107693345573978"}
+gifts["Bonded Ring (Duckling)"]={Price=31825,Image="126161353079630"}
+gifts["Sakura Flower (Flowey)"]={Price=83225,Image="80917448424534"}
+gifts["Astral Shard (Eve's Apple)"]={Price=117250,Image="78295477322201"}
+gifts["Precious Peach (Rich Green)"]={Price=211725,Image="75907455012686"}
+gifts["Crystal Ball (Druid Circle)"]={Price=3125,Image="95097566532024"}
+gifts["Gem Signet (Amethyst)"]={Price=17225,Image="112148373414499"}
+gifts["Diamond Ring (Black Hole)"]={Price=23250,Image="95993240999867"}
+gifts["Astral Shard (Bogartite)"]={Price=29225,Image="110336683186061"}
+gifts["Genie Lamp (Lava Lamp)"]={Price=42875,Image="107002019192507"}
+gifts["Ion Gem (Prismatic)"]={Price=56250,Image="87684615811667"}
+gifts["Loot Bag (Conductor)"]={Price=84225,Image="93781648650452"}
+gifts["Mighty Arm (Crystal Fist)"]={Price=132175,Image="132300271516638"}
+gifts["Durov's Cap (Honey Bee)"]={Price=305750,Image="82052377779048"}
+gifts["Plush Pepe (Hue Jester)"]={Price=1337250,Image="118751933850428"}
+gifts["Plush Pepe (Cozy Galaxy)"]={Price=7425750,Image="137727982265916"}
+gifts["Plush Pepe (Raphael)"]={Price=13537250,Image="113111668096660",OnlyCase=true}
+gifts["Happy Brownie (Raphael)"]={Price=753250,Image="89037041285266",OnlyCase=true}
+gifts["Plush Pepe (Leonardo)"]={Price=15327440,Image="134611226729197",OnlyCase=true}
+gifts["Plush Pepe (Donatello)"]={Price=11937224,Image="103525063716671",OnlyCase=true}
+gifts["Plush Pepe (Ninja Mike)"]={Price=8825756,Image="121567926003023",OnlyCase=true}
+gifts["Plush Pepe (Turtles)"]={Price=1738341480,Image="81964451076779",OnlyCase=true}
+gifts["Mighty Arm (Pizza Pump)"]={Price=873175,Image="126933356067303",OnlyCase=true}
+gifts["Heart Locket (Synthwave)"]={Price=450275,Image="80689047630734"}
+gifts["Heart Locket (White Wolf)"]={Price=723025,Image="100278495100224"}
+gifts["Electric Skull (Terminator)"]={Price=70225,Image="91558755398072"}
+gifts["Mini Oscar (Fiery-Hot)"]={Price=87550,Image="126755075183749"}
+gifts["Artisan Brick (Fight Club)"]={Price=112400,Image="126572461741675"}
+gifts["Heroic Helmet (Cyberpunk)"]={Price=147250,Image="111990677499000"}
+gifts["Nail Bracelet (Interstellar)"]={Price=197425,Image="138606000910311"}
+gifts["Precious Peach (Angelic)"]={Price=245050,Image="107862617324547"}
+gifts["Durov's Cap (Falcon)"]={Price=545725,Image="135862166388337"}
+gifts["Heart Locket (Cirque)"]={Price=1135075,Image="128802869851876"}
+gifts["Plush Pepe (Emerald Plush)"]={Price=6985225,Image="140321887609936"}
+gifts["Gem Signet (Death Star)"]={Price=49575,Image="72226095035040"}
+gifts["Cupid Charm (Crystal Clear)"]={Price=3375,Image="114715582944944"}
+gifts["Eternal Candle (Bubble Bath)"]={Price=1775,Image="81466961095804"}
+gifts["Love Potion (Ice Queen)"]={Price=2550,Image="84589099996166"}
+gifts["Mad Pumpkin (Frostbite)"]={Price=6025,Image="70371898537513"}
+gifts["Kissed Frog (Ectofrog)"]={Price=10500,Image="123150615572699"}
+gifts["Money Pot"]={Price=15050,Image="107434495695849",OnlyCase=true}
+gifts["Astral Shard (Aquarium)"]={Price=28950,Image="71542052117237"}
+gifts["Precious Peach (Bubbling Blue)"]={Price=202750,Image="128950373947198"}
+gifts["Fresh Socks (Billie Jean)"]={Price=4465,Image="112451460979123"}
+gifts["Low Rider (Neon Nitro)"]={Price=6025,Image="139230153254727"}
+gifts["Toy Bear (Fazbear)"]={Price=8350,Image="98257908314760"}
+gifts["Electric Skull (Half Alive)"]={Price=13750,Image="117988848592055"}
+gifts["Bonded Ring (Rainbow)"]={Price=21075,Image="100890727051977"}
+gifts["Astral Shard (Nectarite)"]={Price=37050,Image="129231721446869"}
+gifts["Loot Bag (City Life)"]={Price=74750,Image="95107334963225"}
+gifts["Gem Signet (8 Bit Diamond)"]={Price=105275,Image="97542651728038"}
+gifts["Heroic Helmet (Punk Skull)"]={Price=261750,Image="108709183866571"}
+gifts["Durov's Cap (Sky High)"]={Price=374025,Image="87734989418118"}
+gifts["Gem Signet (Old Bronze)"]={Price=18250,Image="127419114582578"}
+gifts["Bonded Ring (Cat Bed)"]={Price=22725,Image="108056320202584"}
+gifts["Resistance Dog"]={Price=36250,Image="99469763052004"}
+gifts["Nail Bracelet (Cat Person)"]={Price=52500,Image="116497789375692"}
+gifts["Scared Cat (Obelisk)"]={Price=61125,Image="80736223072883"}
+gifts["Nail Bracelet (Moon Cat)"]={Price=74725,Image="134542847362404"}
+gifts["Genie Lamp (Cat Spirit)"]={Price=82050,Image="133645248773348"}
+gifts["Artisan Brick (Cash Roll)"]={Price=102050,Image="135938823078667"}
+gifts["Durov's Cap (Fun Time)"]={Price=232775,Image="127588929140653"}
+gifts["Heart Locket (Fairy Dust)"]={Price=637025,Image="74608390316234"}
+gifts["Plush Pepe (Poison Dart)"]={Price=1205075,Image="101726083521374"}
+gifts["Plush Pepe (Midas Pepe)"]={Price=10086725,Image="113532756565274"}
+gifts["Toy Bear (Alter Ego)"]={Price=15525,Image="132946772709069"}
+gifts["Scared Cat (Cathulhu)"]={Price=35175,Image="102920549469289"}
+gifts["Genie Lamp (Star Dust)"]={Price=71250,Image="111922599060513"}
+gifts["Loot Bag (Road Trip)"]={Price=104625,Image="82115090030411"}
+gifts["Perfume Bottle (Rose Thorn)"]={Price=313875,Image="137235451453670"}
+gifts["Perfume Bottle (Blizzard)"]={Price=615370,Image="86627172092775"}
+gifts["Ionic Dryer (Arc Reactor)"]={Price=24150,Image="79647360457092"}
+gifts["Signet Ring (Saturn Ring)"]={Price=47250,Image="99588827382352"}
+gifts["Astral Shard (Barbed)"]={Price=90075,Image="131545691607192"}
+gifts["Bonded Ring (Asteroid)"]={Price=111825,Image="101444241107879"}
+gifts["Lucky Toy Bear"]={Price=50550,Image="125686846879641",OnlyCase=true}
+gifts["Nail Bracelet (Crypto Gem)"]={Price=248775,Image="137898270908435"}
+gifts["Magic Potion (Error Elixir)"]={Price=339675,Image="72055525294184"}
+gifts["Precious Peach (Crypto Orange)"]={Price=981900,Image="85185103316683"}
+gifts["Clover Pin (Corrupted)"]={Price=475,Image="107966287910110"}
+gifts["Jack in the box (Aliens)"]={Price=675,Image="126163350570760"}
+gifts["Jolly Chimp (Retro Cartoon)"]={Price=1150,Image="119117358657095"}
+gifts["Easter Egg (Creeper)"]={Price=1425,Image="112986111317442"}
+gifts["Ginger Cookie (Headless)"]={Price=2350,Image="90636761629828"}
+gifts["Easter Egg (Boiled Pepe)"]={Price=3025,Image="102328558025040"}
+gifts["Hanging Star (This Is Fine)"]={Price=8150,Image="74258730609060"}
+gifts["Jester Hat (Pepe Hop)"]={Price=14825,Image="83574927561249"}
+gifts["Bonded Ring (Pixel Loot)"]={Price=19250,Image="118773074715155"}
+gifts["Toy Bear (Dark Knight)"]={Price=30325,Image="123406506624694"}
+gifts["Mighty Arm (Gladiator)"]={Price=133200,Image="120261301863934"}
+gifts["Mighty Arm (Icebreaker)"]={Price=433200,Image="104392759264249"}
+gifts["Durov's Cap (Sunrise)"]={Price=237050,Image="89653743155557"}
+gifts["Artisan Brick (USBrick)"]={Price=360500,Image="111275606025621"}
+gifts["Durov's Cap (RGB Glitch)"]={Price=1075025,Image="114077822833278"}
+gifts["Plush Pepe (Aqua Plush)"]={Price=3625000,Image="79951247536709"}
+gifts["Plush Pepe (Toading...)"]={Price=58350025,Image="100876384006704"}
+gifts["Heart Locket (Saturn)"]={Price=1086750,Image="91569456729252"}
+gifts["Loot Bag (Pepe Bag)"]={Price=489075,Image="110774067297922"}
+gifts["Durov's Cap (Shadow)"]={Price=225000,Image="120106320669763"}
+gifts["Heart Locket (Trapped Heart)"]={Price=1462500,Image="95812874555802"}
+gifts["Astral Shard (Crystal Punk)"]={Price=31250,Image="125851623852889"}
+gifts["Mighty Arm (Body Builder)"]={Price=40750,Image="120890942062764"}
+gifts["Artisan Brick (Bomb Planted)"]={Price=63025,Image="73938343268549"}
+gifts["Cupid Charm (Pepe Love)"]={Price=87050,Image="124793048061468"}
+gifts["Precious Peach (Yin Yang)"]={Price=162325,Image="82566017184658"}
+gifts["Durov's Cap (Neon)"]={Price=348750,Image="94017660028407"}
+gifts["Heart Locket (Neptune)"]={Price=888750,Image="108036969074269"}
+gifts["Loot Bag (Crypto Byte)"]={Price=113750,Image="93824242357401"}
+gifts["Artisan Brick (Gold Block)"]={Price=157025,Image="137657331614013"}
+gifts["Heroic Helmet (Frozen Aegis)"]={Price=230325,Image="72071945981785"}
+gifts["Heart Locket (Shield of Sun)"]={Price=623500,Image="95803458445365"}
+gifts["Heart Locket (Delegram)"]={Price=986250,Image="121149571015496"}
+gifts["Plush Pepe (Amalgam)"]={Price=1625025,Image="78541215824890"}
+gifts["Durov's Cap (Tron)"]={Price=398025,Image="96218385452442"}
+gifts["Heart Locket (Mecha Love)"]={Price=600000,Image="121613071294644"}
+gifts["Plush Pepe (Gucci Leap)"]={Price=237725750,Image="100119527019858",OnlyCase=true}
+gifts["Plush Pepe (Frozen)"]={Price=248625290,Image="134520261467083",OnlyCase=true}
+gifts["Plush Pepe (Christmas)"]={Price=7168531235,Image="114032869163843"}
+gifts["Plush Pepe (X-Ray)"]={Price=1000206225,Image="97482516290784",OnlyCase=true}
+gifts["Artisan Brick (Concrete)"]={Price=41250,Image="107695062002543"}
+gifts["Heroic Helmet (Praetorian)"]={Price=74025,Image="88085994202813"}
+gifts["Precious Peach (Peach Black)"]={Price=110725,Image="134492875974846"}
+gifts["Heart Locket (Nightclub)"]={Price=607050,Image="138890353250169"}
+gifts["Plush Pepe (Emo Boi)"]={Price=5036225,Image="122823830749644"}
+gifts["Heart Locket (Turtles)"]={Price=12330325,Image="79070451467980",OnlyCase=true}
+gifts["Plush Pepe (Pink Galaxy)"]={Price=5928744750,Image="119733269901388",OnlyCase=true}
+gifts["Durov's Figurine"]={Price=160256075,Image="94005630449413",OnlyCase=true}
+gifts["Durov's Figurine (X-Ray)"]={Price=410256075,Image="120477288435481",OnlyCase=true}
+gifts["Durov's Sunglasses"]={Price=13178050,Image="74435088975390",OnlyCase=true}
+gifts["Durov's Coat"]={Price=840325,Image="72958250731974",OnlyCase=true}
+gifts["Durov's Boots"]={Price=170625,Image="128134854871653",OnlyCase=true}
+gifts["Plush Pepe (Steel Frog)"]={Price=1583075550,Image="86913280986289",OnlyCase=true}
+gifts["Bling Binky (Tribal Skull)"]={Price=78025,Image="139734247031615",OnlyCase=true}
+gifts["Westside Sign (Sapphire)"]={Price=107625,Image="101575717524437"}
+gifts["Pink Flamingo"]={Price=189250,Image="82738481564743",OnlyCase=true}
+gifts["Crystal Eagle"]={Price=4905850225,Image="110412295968493",OnlyCase=true}
+gifts["Plush Pepe (Magnate)"]={Price=924760275,Image="125949078829489",OnlyCase=true}
+gifts["Gem Signet (Spinny Boi)"]={Price=10782203050,Image="75036682111753",OnlyCase=true}
+gifts["Plush Pepe (Kung Fu Pepe)"]={Price=3074895775,Image="126825154830683"}
+gifts["Input Key (Angel)"]={Price=2625,Image="139639729233565"}
+gifts["Toy Bear (Angel)"]={Price=16250,Image="132024367329471"}
+gifts["Telegram Pin"]={Price=127875000000,Image="85194869805750",OnlyCase=true}
+gifts["Telegram Pin (Gradient)"]={Price=913333320000,Image="73975269431953",OnlyCase=true}
+gifts["Plush Pepe (Clown)"]={Price=77777777777,Image="82739431415394",OnlyCase=true}
+gifts["Plush Pepe (Santa)"]={Price=2223765134,Image="133122895457327"}
+gifts["Plush Pepe (Hothead)"]={Price=846461046,Image="130639104288631",OnlyCase=true}
+gifts["Mini Oscar (Claus)"]={Price=40655413,Image="100722771607414"}
+gifts["Precious Peach (Xmas Lights)"]={Price=825414237,Image="106888952696850"}
+gifts["Loot Bag (Glacier)"]={Price=556534891,Image="88237807065894"}
+gifts["Khabib's Papakha (Winter)"]={Price=394376549,Image="73770789197363"}
+gifts["Neko Helmet (Frostbear)"]={Price=239543128,Image="97818651133991"}
+gifts["Telegram Pin (Christmas)"]={Price=75014777777,Image="106906356643360",OnlyCase=true}
+gifts["Gem Signet (XMAS Spinny Boi)"]={Price=260033114458,Image="122255461326468",OnlyCase=true}
+gifts["Christmas Tree"]={Price=7002026,Image="70875484033160"}
+gifts["Ginger Cookie (Claus)"]={Price=25145,Image="103663121436788"}
+gifts["Sharp Tongue (Frostbite)"]={Price=47832,Image="135314802530625"}
+gifts["Bling Binky (Christmas)"]={Price=89541,Image="113264363320600"}
+gifts["Resistance Dog (Christmas)"]={Price=17777777777,Image="79640819093733",OnlyCase=true}
+gifts["Crystal Eagle (Jolly)"]={Price=202620262026,Image="112656716312785",OnlyCase=true}
+gifts["XMAS Stocking (Heaven)"]={Price=1111111,Image="92688670102580"}
+gifts["Ionic Dryer (Angel Blast)"]={Price=9999999,Image="138036370306768"}
+gifts["Top Hat (Celestial)"]={Price=17777777,Image="90014097824875"}
+gifts["Sleigh Ball (Holy Grenade)"]={Price=4444444444,Image="72325208376473",OnlyCase=true}
+gifts["Loot Bag (Priestly)"]={Price=7777777777,Image="91815335328119",OnlyCase=true}
+gifts["Resistance Dog (Holy Dog)"]={Price=22222222222,Image="92581372778932",OnlyCase=true}
+gifts["Liberty"]={Price=405156,Image="105471133542857",OnlyCase=true}
+gifts["Bow Tie (Durov's Dog)"]={Price=1502659,Image="127715395741623",OnlyCase=true}
+gifts["Joyful Bundle (Gem Stash)"]={Price=38145769,Image="132252466731341",OnlyCase=true}
+gifts["Tama Gadget (Underdog)"]={Price=3659561518,Image="87232032101980",OnlyCase=true}
+gifts["Nail Bracelet (Resistance)"]={Price=44954431645,Image="110285578518898",OnlyCase=true}
+gifts["Toy Bear (Christmas)"]={Price=5002026,Image="119765450131909",OnlyCase=true}
+gifts["Trojan Horse"]={Price=821538,Image="77918389402075"}
+gifts["Toy Bear (Spring)"]={Price=80000,Image="97273581947301"}
+gifts["Toy Bear (Valentine)"]={Price=1400260,Image="132800952372805"}
+gifts["Valentine Heart"]={Price=1415380,Image="99079851596499"}
+gifts["Desk Calendar (Lovely)"]={Price=1241355,Image="84210626044717",OnlyCase=true}
+gifts["Desk Calendar (Gold Leaf)"]={Price=1341355,Image="138299476694878",OnlyCase=true}
+gifts["Desk Calendar (Tropical)"]={Price=1351355,Image="116848967037413",OnlyCase=true}
+gifts["Desk Calendar (Orange Mood)"]={Price=1441355,Image="113387874705805",OnlyCase=true}
+gifts["Desk Calendar (Purple Mint)"]={Price=1451355,Image="127407922948313",OnlyCase=true}
+gifts["Desk Calendar (Blue Sky)"]={Price=1461355,Image="127448220159836",OnlyCase=true}
+gifts["Desk Calendar (Golden Touch)"]={Price=1561355,Image="119070506494882",OnlyCase=true}
+gifts["Desk Calendar (Minting Date)"]={Price=1581355,Image="81273441529894",OnlyCase=true}
+gifts["Desk Calendar (Lavendays)"]={Price=1781355,Image="91602760607042",OnlyCase=true}
+gifts["Desk Calendar (Harvest)"]={Price=1881355,Image="72246053516114",OnlyCase=true}
+gifts["Desk Calendar (October)"]={Price=10081355,Image="125946452266818",OnlyCase=true}
+gifts["Desk Calendar (November)"]={Price=12061355,Image="89597913254727",OnlyCase=true}
+gifts["Desk Calendar (December)"]={Price=13061355,Image="87173163096816",OnlyCase=true}
+gifts["Desk Calendar (Golden Years)"]={Price=15081355,Image="77612710850041",OnlyCase=true}
+gifts["Desk Calendar (Thursday)"]={Price=18081355,Image="133719087969132",OnlyCase=true}
+gifts["Desk Calendar (September)"]={Price=50081355,Image="95869682800550",OnlyCase=true}
+gifts["Desk Calendar (March)"]={Price=67061355,Image="108867045532499",OnlyCase=true}
+gifts["Desk Calendar (Saturday)"]={Price=75061355,Image="120441303177458",OnlyCase=true}
+gifts["Desk Calendar (June)"]={Price=28081355,Image="91571967726831",OnlyCase=true}
+gifts["Desk Calendar (April)"]={Price=39081355,Image="82358682328142",OnlyCase=true}
+gifts["Desk Calendar (Durov Day)"]={Price=200081355,Image="116296833942033",OnlyCase=true}
+gifts["Desk Calendar (Pepe Plans)"]={Price=257061355,Image="90024135079312",OnlyCase=true}
+gifts["Desk Calendar (Burning Time)"]={Price=285061355,Image="78384345269413",OnlyCase=true}
+gifts["Desk Calendar (Fund Manager)"]={Price=325061355,Image="86212933390805",OnlyCase=true}
+gifts["Desk Calendar (Investor)"]={Price=345061355,Image="110315757431080",OnlyCase=true}
+gifts["Desk Calendar (Odinsdagr)"]={Price=56241355080,Image="95689495522047",Crafted=true}
+gifts["Desk Calendar (Day of Mars)"]={Price=51852400315,Image="73552455265093",Crafted=true}
+gifts["Desk Calendar (Celestial Map)"]={Price=43406135540,Image="106253238384221",Crafted=true}
+gifts["Desk Calendar (Loki's Day)"]={Price=40508135500,Image="101750918330447",Crafted=true}
+gifts["Desk Calendar (May the Fourth)"]={Price=38408135500,Image="122659186857593",Crafted=true}
+gifts["Desk Calendar (Aphrodite)"]={Price=17081355120,Image="133433576957769",Crafted=true}
+gifts["Desk Calendar (Selena)"]={Price=16206135500,Image="122118538125417",Crafted=true}
+gifts["Desk Calendar (Tysdagr)"]={Price=15081355820,Image="98940361495245",Crafted=true}
+gifts["Desk Calendar (Frjadagr)"]={Price=14061355340,Image="137977100331131",Crafted=true}
+gifts["Desk Calendar (Þorsdagr)"]={Price=13081355000,Image="130246661363460",Crafted=true}
+gifts["Desk Calendar (TON Core)"]={Price=12250613550,Image="81074230399661",Crafted=true}
+gifts["Desk Calendar (Kronos)"]={Price=11081355410,Image="85096808599059",Crafted=true}
+gifts["Desk Calendar (Sol Invictus)"]={Price=9081355200,Image="122855133263161",Crafted=true}
+gifts["Desk Calendar (Shinto Shrine)"]={Price=8061355650,Image="92490397747680",Crafted=true}
+gifts["Desk Calendar (Lucky Day)"]={Price=7081355130,Image="79069929820961",Crafted=true}
+gifts["Desk Calendar (Manadagr)"]={Price=6206135500,Image="139298595536360",Crafted=true}
+gifts["Desk Calendar (Treasure Map)"]={Price=5581355910,Image="99187808753074",Crafted=true}
+gifts["Desk Calendar (Royal Flush)"]={Price=5061355040,Image="109583845584101",Crafted=true}
+gifts["Desk Calendar (Frog Day)"]={Price=2508135512,Image="135647595860277",Crafted=true}
+gifts["Desk Calendar (First Date)"]={Price=2406135580,Image="113922724222006",Crafted=true}
+gifts["Desk Calendar (Payday)"]={Price=2258135525,Image="129031428233839",Crafted=true}
+gifts["Desk Calendar (Grimoire)"]={Price=2106135540,Image="75713976934181",Crafted=true}
+gifts["Desk Calendar (Cat Seasons)"]={Price=2008135505,Image="93210416532311",Crafted=true}
+gifts["Desk Calendar (Ghost Party)"]={Price=1808135515,Image="96614254743993",Crafted=true}
+gifts["Desk Calendar (Zeus)"]={Price=1656135590,Image="88864815154316",Crafted=true}
+gifts["Desk Calendar (Samhain)"]={Price=1356135560,Image="111700550836056",Crafted=true}
+gifts["Desk Calendar (Hermes)"]={Price=1208135520,Image="88241634096025",Crafted=true}
+gifts["Desk Calendar (Count Dracula)"]={Price=1006135585,Image="95622176301356",Crafted=true}
+gifts["Desk Calendar (Sekhmet)"]={Price=390613550,Image="127046522705255",Crafted=true}
+gifts["Desk Calendar (Cyberpunk)"]={Price=380813558,Image="133153413782307",Crafted=true}
+gifts["Desk Calendar (Anniversary)"]={Price=370613551,Image="87263652359600",Crafted=true}
+gifts["Desk Calendar (Crunch Time)"]={Price=360813554,Image="123710238466679",Crafted=true}
+gifts["Desk Calendar (Mesozoic)"]={Price=350613559,Image="136222220410336",Crafted=true}
+gifts["Desk Calendar (Orchestra)"]={Price=340813550,Image="110000724382686",Crafted=true}
+gifts["Desk Calendar (Daily Bread)"]={Price=330613552,Image="96937036339326",Crafted=true}
+gifts["Desk Calendar (Helios)"]={Price=320813557,Image="71060365549894",Crafted=true}
+gifts["Desk Calendar (Steampunk)"]={Price=310613553,Image="127828321409537",Crafted=true}
+gifts["Desk Calendar (Holy Month)"]={Price=280813554,Image="70934364258044",Crafted=true}
+gifts["Desk Calendar (Anno Domini)"]={Price=270613559,Image="98529569105920",Crafted=true}
+gifts["Desk Calendar (New Year)"]={Price=260813550,Image="113574472349586",Crafted=true}
+gifts["Desk Calendar (Vacation)"]={Price=250613557,Image="123986128674909",Crafted=true}
+gifts["Desk Calendar (Shopping List)"]={Price=240813552,Image="136127172087114",Crafted=true}
+gifts["Desk Calendar (April Fools)"]={Price=230613558,Image="126461535238830",Crafted=true}
+gifts["Desk Calendar (Women's Day)"]={Price=220813551,Image="87852861999956",Crafted=true}
+gifts["Desk Calendar (Vintage)"]={Price=210613554,Image="88895125939097",Crafted=true}
+gifts["Desk Calendar (Yoga Time)"]={Price=190813559,Image="81606909474269",Crafted=true}
+gifts["Desk Calendar (Toy Calendar)"]={Price=150613550,Image="92459619950644",Crafted=true}
+gifts["Plush Pepe (Kitty)"]={Price=8900813559,Image="82281014970839",OnlyCase=true}
+gifts["Precious Peach (Glossy Pink)"]={Price=3541769054,Image="139796302478397",OnlyCase=true}
+gifts["Plush Pepe (Dark Pink)"]={Price=6541669084,Image="99579513843118",OnlyCase=true}
+gifts["Nail Bracelet (Rose Thorn)"]={Price=1541469034,Image="126703919696933",OnlyCase=true}
+gifts["Lush Bouquet (Million Roses)"]={Price=831515869,Image="80604222517199",OnlyCase=true}
+gifts["Astral Shard (Lovestone)"]={Price=458105416,Image="89030446583597",OnlyCase=true}
+gifts["Kissed Frog (Pond Fairy)"]={Price=205156859,Image="116430116035935",OnlyCase=true}
+gifts["Pool Float (Show Seal)"]={Price=389892,Image="116076004170535",OnlyCase=true}
+gifts["Pool Float (Sebastian)"]={Price=965634,Image="123462294524910",OnlyCase=true}
+gifts["Pool Float (Palm Beach)"]={Price=3523547,Image="85211826426509",OnlyCase=true}
+gifts["Pool Float (Pool Pepe)"]={Price=25358892,Image="83402339286249",OnlyCase=true}
+gifts["Pool Float (Duck Boss)"]={Price=46693396,Image="102786460500454",OnlyCase=true}
+gifts["Pool Float (Crypto Whale)"]={Price=141245479,Image="82999818917491",OnlyCase=true}
+gifts["Pool Float (Safari)"]={Price=2468243836,Image="105894157364680",OnlyCase=true}
+gifts["Plush Pepe (Tropical)"]={Price=17777777777,Image="73849783332784",OnlyCase=true}
+gifts["Telegram Pin (Tropical)"]={Price=225585000000,Image="92835421199871",OnlyCase=true}
+gifts["Resistance Dog (Summer)"]={Price=28790000000,Image="134002537190959",OnlyCase=true}
+gifts["Durov's Boots (Slippers)"]={Price=692575000,Image="120323947972730",OnlyCase=true}
+gifts["Durov's Figurine (Surfer)"]={Price=72485675000,Image="84811832300085",OnlyCase=true}
+gifts["Toy Bear (May 1)"]={Price=50,Image="83941558049496",OnlyCase=true}
+gifts["Plush Pepe (Bavaria)"]={Price=10412223234,Image="77763058474998",OnlyCase=true}
+gifts["Durov's Figurine (Ilon)"]={Price=3746634265,Image="132683982496229"}
+gifts["Pool Float (Nessie)"]={Price=793356832,Image="105242209346125"}
+gifts["Happy Brownie (Toilet Bot)"]={Price=52228677,Image="119297956679055"}
+gifts["Mood Pack (Bank Vault)"]={Price=3124789,Image="72362821432946"}
+gifts["Toy Bear (Blueprint)"]={Price=1536235,Image="96772182407103"}
+gifts["Genie Lamp (Monstrous)"]={Price=14457000,Image="117005029161773"}
+gifts["Perfume Bottle (Noir)"]={Price=41407200,Image="74627141535362"}
+gifts["Nail Bracelet (Shadow)"]={Price=116470200,Image="108007070959272"}
+gifts["Astral Shard (Dark Soul)"]={Price=364927800,Image="116601471347163"}
+gifts["Timeless Book (Death Note)"]={Price=18066006600,Image="74304923913289",OnlyCase=true}
+gifts["Perfume Bottle (Venom Mist)"]={Price=13925600,Image="129802406577846"}
+gifts["Magic Potion (Verdant Vial)"]={Price=18084800,Image="102511644282252"}
+gifts["Astral Shard (Uranium)"]={Price=25280800,Image="119399335853916"}
+gifts["Genie Lamp (Lost Souls)"]={Price=33610400,Image="74751085568125"}
+gifts["Precious Peach (Gleam Bite)"]={Price=53736000,Image="82670066000286"}
+gifts["Durov's Cap (Toxic Guy)"]={Price=113351200,Image="80009238342246"}
+gifts["Heart Locket (Reactor)"]={Price=217603200,Image="121824522772517",OnlyCase=true}
+gifts["Crystal Eagle (Sakura)"]={Price=43087525065,Image="87588897981605",OnlyCase=true}
+gifts["Heart Locket (Sakura)"]={Price=5773025445,Image="122429150066378"}
+gifts["Durov's Cap (Sakura)"]={Price=1033457030,Image="86621323929476"}
+gifts["Nail Bracelet (Sakura)"]={Price=457012070,Image="123772517520948"}
+gifts["Mood Pack (Sakura)"]={Price=301896155,Image="90458415647864"}
+gifts["Durov's Figurine (Holidays)"]={Price=1714569955,Image="108105110783728",OnlyCase=true}
+gifts["Durov's Sunglasses (Tropics)"]={Price=598450110,Image="79182517046170"}
+gifts["Surfboard (Tropics)"]={Price=98895060,Image="123072288877784"}
+gifts["Ion Gem (Sea)"]={Price=37081800,Image="92538901237394"}
+gifts["Coconut (Tropics)"]={Price=5573095,Image="109757119257010"}
+gifts["Plush Pepe (Sandy)"]={Price=4513366015,Image="116360209575635",OnlyCase=true}
+gifts["Artisan Brick (Pyramid)"]={Price=1589999040,Image="84693365202430"}
+gifts["Mighty Arm (Desert)"]={Price=400573035,Image="107367690934526"}
+gifts["Magic Potion (Sandy)"]={Price=158400235,Image="105379907509578"}
+gifts["Sandcastle (Desert)"]={Price=24570055,Image="112922280290974"}
+gifts["Grim Reaper (Summer)"]={Price=275555555555,Image="92133539467985",OnlyCase=true}
+gifts["Resistance Dog (Shark)"]={Price=395555555555,Image="116909575223311",OnlyCase=true}
+gifts["Neko Helmet (Shark)"]={Price=5978455,Image="80979036604960"}
+gifts["Durov's Figurine (Homelander)"]={Price=250555555555,Image="81784014087285",OnlyCase=true}
+gifts["Durov's Figurine (Butcher)"]={Price=57888888888,Image="81942883662656",OnlyCase=true}
+gifts["Durov's Figurine (Soldier Boy)"]={Price=12333333333,Image="127317034118548",OnlyCase=true}
+gifts["Durov's Figurine (A-Train)"]={Price=4666666666,Image="120679700562476",OnlyCase=true}
+gifts["Durov's Figurine (The Deep)"]={Price=1777777777,Image="103288400857684",OnlyCase=true}
+gifts["Durov's Figurine (Dio)"]={Price=577777777777,Image="119556664889659",OnlyCase=true}
+gifts["Durov's Figurine (Ronaldo)"]={Price=777777777777,Image="100374134815959",OnlyCase=true}
+gifts["Trophy (Championship)"]={Price=2026202620,Image="78840999828262",OnlyCase=true}
+gifts["Plush Pepe (Captain)"]={Price=300000000000,Image="79341926061544",OnlyCase=true}
+gifts["Heart Locket (Deadpool)"]={Price=5555555555,Image="81675313862774",OnlyCase=true}
+gifts["Mini Oscar (Spidey)"]={Price=175760041,Image="81943261290290",OnlyCase=true}
+gifts["Mighty Arm (Infinity)"]={Price=333333333,Image="104889727539203",OnlyCase=true}
+gifts["Gem Signet (Arc Reactor)"]={Price=267054323,Image="72102212760216",OnlyCase=true}
+gifts["Khabib's Papakha (Madridista)"]={Price=989140000,Image="88575331919518",OnlyCase=true}
+gifts["Victory Medal (Glory Goal)"]={Price=45120067,Image="111646242760814",OnlyCase=true}
+gifts["Bling Binky (Soccer)"]={Price=676767676,Image="77145020543855",OnlyCase=true}
+gifts["Mini Oscar (The World)"]={Price=7777777777,Image="117775493636731",OnlyCase=true}
+gifts["Mask (Stone Mask)"]={Price=17777777,Image="130745893086113",OnlyCase=true}
+gifts["Toy Bear (Natsuki)"]={Price=999999999999,Image="139778265038718",OnlyCase=true}
+gifts["Case (TSUM)"]={Price=1000000000000,Image="82109193707885",OnlyCase=true}
+gifts["Resistance Dog (Drill Fit)"]={Price=175856449750,Image="138356714623112",OnlyCase=true}
+gifts["Mood Pack (BAPE)"]={Price=25478125050,Image="97096516277734",OnlyCase=true}
+gifts["Durov's Cap (Arctic)"]={Price=4523719525,Image="139357681263099",OnlyCase=true}
+gifts["Surge Board (Ayanami)"]={Price=276555666555,Image="87757318337001",OnlyCase=true}
+gifts["Crystal Eagle (Royal Pavo)"]={Price=32050355675,Image="110942615261555",OnlyCase=true}
+gifts["Mousse Cake (Hollow Night)"]={Price=4784350890,Image="89926184935439",OnlyCase=true}
+gifts["Bling Binky (Ice Queen)"]={Price=2450899300,Image="84294470884854",OnlyCase=true}
+gifts["Chill Flame (Ghost Light)"]={Price=834561095,Image="79098446049829",OnlyCase=true}
+gifts["Grim Reaper"]={Price=1777777777777,Image="121033438450739",OnlyCase=true}
+gifts["Artisan Brick (Grass Block)"]={Price=74566005,Image="126758042600039"}
+gifts["Scared Cat (Creeper)"]={Price=136505405,Image="93060959447528"}
+gifts["Artisan Brick (Buzzy Bee)"]={Price=218745615,Image="113203023191386"}
+gifts["Scared Cat (Endercat)"]={Price=3564181055,Image="76025958385315"}
+gifts["Rare Bird (Zombie Rider)"]={Price=56187225060,Image="93721811558212",OnlyCase=true}
+gifts["Resistance Dog (Ender Dragon)"]={Price=1255555555555,Image="107792689447567",OnlyCase=true}
+gifts["Rare Bird (Aurora Moth)"]={Price=1101010101010,Image="123567720390043",OnlyCase=true}
+gifts["Bling Binky (Crystal Wings)"]={Price=98553140850,Image="118128530694020",OnlyCase=true}
+gifts["Loot Bag (Fluorescent)"]={Price=7542148035,Image="140078011321578",OnlyCase=true}
+gifts["Mousse Cake (Butterflies)"]={Price=465780145,Image="71834137037001",OnlyCase=true}
+gifts["Homemade Cake (Meadow)"]={Price=31042005,Image="84893967819999",OnlyCase=true}
+gifts["Sunglasses (Thug Life)"]={Price=2000000000000,Image="114069559271783",OnlyCase=true}
+gifts["Sunglasses (Neo)"]={Price=2000000000000,Image="126359866704877",OnlyCase=true}
+gifts["Sunglasses (Project Mayhem)"]={Price=2000000000000,Image="95506579720610",OnlyCase=true}
+gifts["Sunglasses (Six Seven)"]={Price=35078142000,Image="74712642499366",OnlyCase=true}
+gifts["Sunglasses (Stardust)"]={Price=2515706025,Image="93343378860118"}
+gifts["Sunglasses (Retro Disco)"]={Price=108055405,Image="99481486933775"}
+gifts["Sunglasses (Kamina)"]={Price=2500000000000,Image="139554680023116",OnlyCase=true}
+gifts["Artisan Brick (Cherry Ruby)"]={Price=350000000000,Image="81129751079792",OnlyCase=true}
+gifts["Cupid Charm (Blood Gem)"]={Price=100000000,Image="109740089889185",OnlyCase=true}
+gifts["Mini Oscar (Angel)"]={Price=205481580,Image="70506502255234",OnlyCase=true}
+gifts["Mini Oscar (Demon)"]={Price=205481580,Image="98485397116459",OnlyCase=true}
+gifts["Crystal Eagle (Frozen Gold)"]={Price=535697250,Image="137016296677216",OnlyCase=true}
+gifts["Crystal Eagle (Fiscal Hawk)"]={Price=1415674065,Image="93697329205199",OnlyCase=true}
+gifts["Crystal Eagle (Thunderbird)"]={Price=3367542355,Image="130740572235709",OnlyCase=true}
+gifts["Durov's Figurine (Tyler Durden)"]={Price=5807698605,Image="75024632734860",OnlyCase=true}
+gifts["Durov's Figurine (The Narrator)"]={Price=2175846095,Image="100122550169828",OnlyCase=true}
+gifts["Plush Pepe (Gradient)"]={Price=75406894555,Image="119518486089258",OnlyCase=true}
+gifts["Heroic Helmet (Gradient)"]={Price=16014784500,Image="106933618460883",OnlyCase=true}
+gifts["Resistance Dog (Grim Reaper)"]={Price=2514890705650,Image="118830879287463",OnlyCase=true}
+gifts["Scared Cat (Reaper's Cat)"]={Price=302471549705,Image="133022854190613",OnlyCase=true}
+gifts["Sunglasses (Pepe Dream)"]={Price=1504754255,Image="115452985432030",OnlyCase=true}
+gifts["Surge Board (Pepe Surfer)"]={Price=1504754255,Image="126786917210913",OnlyCase=true}
+gifts["Durov's Cap (Cosmic Void)"]={Price=12696405125,Image="105008071495954",OnlyCase=true}
+gifts["Durov's Figurine (Galaxy Lord)"]={Price=150479103365,Image="81009054079442",OnlyCase=true}
+gifts["TG Pin (Ruby)"]={Price=1456124795055,Image="97557856379431",OnlyCase=true}
+gifts["TG Pin (Frutiger Aero)"]={Price=3065751025660,Image="133496461513076",OnlyCase=true}
+gifts["TG Pin (Fracture)"]={Price=9603147540665,Image="135811460416847",OnlyCase=true}
+gifts["Gem Signet (Summer Spinny Boi)"]={Price=99999999999999,Image="94261678248292",OnlyCase=true}
+gifts["Durov's Figurine (Spider Man)"]={Price=1499999999999,Image="74198466997687",OnlyCase=true}
+gifts["Swiss Watch (Spider Man)"]={Price=178506413225,Image="101697004361540",OnlyCase=true}
+gifts["Bow Tie (Spider Sense)"]={Price=14904562090,Image="115374407734674",OnlyCase=true}
+gifts["Joyful Bundle (Spider-Dog)"]={Price=2751690135,Image="122929125136060",OnlyCase=true}
+gifts["Crystal Eagle (Black Hole)"]={Price=3751891197550,Image="100540484034877",OnlyCase=true}
+-- НОВЫЕ ОСЕННИЕ NFT
+gifts["Grim Reaper (Autumn)"]={Price=1375555555555,Image="136588913487799",OnlyCase=true}
+gifts["Fine Pen (School Time)"]={Price=27591195,Image="78363625589766",OnlyCase=true}
+gifts["Mood Pack (School)"]={Price=185934105,Image="118755056095888",OnlyCase=true}
+gifts["Durov's Cap (Graduate)"]={Price=491673055,Image="133596748130602",OnlyCase=true}
+gifts["Case (School)"]={Price=2998476125,Image="96249212134066",OnlyCase=true}
+gifts["Durov's Figurine (Teacher)"]={Price=8469741220,Image="113871820863921",OnlyCase=true}
+gifts["Eternal Candle (Autumn)"]={Price=120564325,Image="95382105079872",OnlyCase=true}
+gifts["Diamond Ring (Autumn)"]={Price=791467250,Image="111244577593648",OnlyCase=true}
+gifts["Bonded Ring (Autumn)"]={Price=2045197400,Image="124163199445894",OnlyCase=true}
+gifts["Sunglasses (Autumn)"]={Price=7945823135,Image="130121467801008",OnlyCase=true}
+gifts["Plush Pepe (Autumn)"]={Price=22641344565,Image="100441915668279",OnlyCase=true}
+gifts["Love Potion (Smell of Rain)"]={Price=1505674665,Image="107632537983208",OnlyCase=true}
+gifts["Ion Gem (Rainy Crystal)"]={Price=2285945550,Image="99810491286946",OnlyCase=true}
+gifts["Loot Bag (Rainfall)"]={Price=5165879335,Image="77202132894713",OnlyCase=true}
+gifts["Heroic Helmet (Autumn Warrior)"]={Price=28865912640,Image="89481541052175",OnlyCase=true}
+gifts["Crystal Eagle (Autumn Rain)"]={Price=215645996335,Image="91518208395647",OnlyCase=true}
+gifts["Resistance Dog (Autumn)"]={Price=1975555555555,Image="106117986975991",OnlyCase=true}
+gifts["Scared Cat (Autumn)"]={Price=29674505,Image="92570647624088",OnlyCase=true}
+
+local selectedItems={}
+local itemAmounts={}
+
+local patterns={"Trophy","Knight","Phoenix","Diamond","Crown","Skull","Dice","Coin","Gem","Shield","Star","Moon","Fire","Vortex","Sakura"}
+local backdrops={"Black","Gold","Silver Blue","Midnight Blue","Emerald","Sapphire","Purple","Cyberpunk","Lavender","Platinum","Neon Blue","Electric Indigo"}
+local function GetRandomPattern()return patterns[math.random(#patterns)]end
+local function GetRandomBackdrop()return backdrops[math.random(#backdrops)]end
+local function GetRandomNumber()return math.random(1000000,3000000)end
+
+local function AddToFavorites(name)
+    local fav=player:FindFirstChild("_Favorites")
+    if not fav then
+        fav=Instance.new("Folder")
+        fav.Name="_Favorites"
+        fav.Parent=player
+    end
+    local favItem=fav:FindFirstChild(name)
+    if not favItem then
+        local f=Instance.new("BoolValue")
+        f.Name=name
+        f.Value=true
+        f.Parent=fav
+    end
+end
+
+local function AddDefaultNFT(name, count)
+    count=count or 1
+    local inv=player:FindFirstChild("_Inventory")
+    if not inv then
+        inv=Instance.new("Folder")
+        inv.Name="_Inventory"
+        inv.Parent=player
+    end
+
+    for i=1,count do
+        local item=Instance.new("IntValue")
+        item.Name=name
+        item.Parent=inv
+
+        if string.find(name, "Desk Calendar") and gifts[name] and gifts[name].Crafted then
+            item:SetAttribute("Unique", true)
+            item:SetAttribute("Pattern", GetRandomPattern())
+            item:SetAttribute("Backdrop", GetRandomBackdrop())
+            item:SetAttribute("Number", "#" .. GetRandomNumber())
+            item:SetAttribute("Date", os.date("%Y/%m/%d/%H:%M:%S"))
+            item:SetAttribute("Owner", player.Name)
+        end
+        if string.find(name, "Galaxy") then
+            item:SetAttribute("Unique", true)
+            item:SetAttribute("Pattern", GetRandomPattern())
+            item:SetAttribute("Backdrop", GetRandomBackdrop())
+            item:SetAttribute("Number", "#" .. GetRandomNumber())
+            item:SetAttribute("Date", os.date("%Y/%m/%d/%H:%M:%S"))
+            item:SetAttribute("Owner", player.Name)
+        end
+        item:SetAttribute("Favorite", true)
+    end
+
+    AddToFavorites(name)
+    return true, "✅ " .. name .. " x" .. count
+end
+
+local function SetStars(v)local val=player:FindFirstChild("_StarsValue")if val then val.Value=v end end
+local function SetTON(v)local val=player:FindFirstChild("_TONValue")if val then val.Value=v end end
+local function SetGems(v)local val=player:FindFirstChild("_GemsValue")if val then val.Value=v end end
+
+local COLORS={
+    Window=Color3.fromRGB(6,8,20),
+    Border=Color3.fromRGB(80,160,255),
+    White=Color3.fromRGB(255,255,255),
+    Text=Color3.fromRGB(180,200,230),
+    Dim=Color3.fromRGB(100,130,180),
+    Green=Color3.fromRGB(70,210,100),
+    Red=Color3.fromRGB(255,70,70),
+    Orange=Color3.fromRGB(255,180,50)
+}
+
+local function addCorner(p,r)local v=Instance.new("UICorner",p)v.CornerRadius=UDim.new(0,r)return v end
+local function addStroke(p,c,t,tr)local v=Instance.new("UIStroke",p)v.ApplyStrokeMode=Enum.ApplyStrokeMode.Border v.Color=c v.Thickness=t or 1 v.Transparency=tr or 0 return v end
+local function makeLabel(p,n,t,s,pos,ts,col,font)local l=Instance.new("TextLabel",p)l.Name=n l.Size=s l.Position=pos l.BackgroundTransparency=1 l.Text=t l.TextSize=ts l.TextColor3=col l.Font=font or Enum.Font.GothamMedium l.TextXAlignment=Enum.TextXAlignment.Left l.TextYAlignment=Enum.TextYAlignment.Center return l end
+
+local function MakeDotsBackground(parent)
+local canvas=Instance.new("Frame",parent)
+canvas.Size=UDim2.new(1,0,1,0)
+canvas.BackgroundTransparency=1
+canvas.ZIndex=0
+canvas.Name="DotsCanvas"
+canvas.ClipsDescendants=true
+canvas.Interactable=false
+local dots={}
+for i=1,12 do
+local sz=math.random(2,5)
+local dot=Instance.new("Frame",canvas)
+dot.Size=UDim2.new(0,sz,0,sz)
+dot.Position=UDim2.new(math.random(0,100)/100,0,math.random(0,100)/100,0)
+dot.BackgroundColor3=math.random()>0.5 and Color3.fromRGB(80,160,255)or Color3.fromRGB(40,100,200)
+dot.BackgroundTransparency=math.random(40,75)/100
+dot.BorderSizePixel=0
+dot.Interactable=false
+Instance.new("UICorner",dot).CornerRadius=UDim.new(1,0)
+local dirX=(math.random()-0.5)*0.002
+local dirY=(math.random()-0.5)*0.002
+local phase=math.random(0,628)/100
+local pulseS=math.random(7,15)/10
+table.insert(dots,{frame=dot,dirX=dirX,dirY=dirY,phase=phase,pulseS=pulseS,px=dot.Position.X.Scale,py=dot.Position.Y.Scale})
+end
+local t=0
+local conn=RunService.Heartbeat:Connect(function(dt)
+if not canvas.Parent then return end
+t=t+dt
+for _,d in ipairs(dots)do
+d.px=d.px+d.dirX*dt*5
+d.py=d.py+d.dirY*dt*5
+if d.px>1.05 then d.px=-0.05 elseif d.px<-0.05 then d.px=1.05 end
+if d.py>1.05 then d.py=-0.05 elseif d.py<-0.05 then d.py=1.05 end
+local pulse=0.5+0.4*math.sin(t*d.pulseS+d.phase)
+d.frame.Position=UDim2.new(d.px,0,d.py,0)
+d.frame.BackgroundTransparency=0.15+pulse*0.7
+end
+end)
+canvas.AncestryChanged:Connect(function()if not canvas.Parent then pcall(function()conn:Disconnect()end)end end)
+return canvas,dots
+end
+
+pcall(function()for _,n in ipairs({"SunsetSpawner"})do local p=game.CoreGui:FindFirstChild(n)if p then p:Destroy()end end end)
+for _,n in ipairs({"SunsetSpawner"})do local p=playerGui:FindFirstChild(n)if p then p:Destroy()end end
+
+local GUI=Instance.new("ScreenGui")
+GUI.Name="SunsetSpawner"
+GUI.ResetOnSpawn=false
+GUI.IgnoreGuiInset=true
+GUI.DisplayOrder=999
+if not pcall(function()GUI.Parent=game.CoreGui end)then GUI.Parent=playerGui end
+
+-- === Функция для добавления сообщения в консоль ===
+local function AddConsoleMessage(text, color)
+    color = color or Color3.fromRGB(160,180,210)
+    if not ConsoleOutput1 then return end
+    local msg = '<font color="rgb('..math.floor(color.R*255)..','..math.floor(color.G*255)..','..math.floor(color.B*255)..')">'..text..'</font>'
+    local current = ConsoleOutput1.Text
+    local lines = {}
+    for line in current:gmatch("[^\n]+") do
+        table.insert(lines, line)
+    end
+    if #lines >= 50 then
+        for i=1,10 do table.remove(lines,1) end
+    end
+    table.insert(lines, msg)
+    ConsoleOutput1.Text = table.concat(lines, "\n")
+    task.defer(function()
+        if Console1 then
+            Console1.CanvasPosition = Vector2.new(0, Console1.CanvasSize.Y.Offset)
+        end
+        updateConsoleCanvas1()
+    end)
+end
+
+-- === 1 МЕНЮ ===
+local Window1=Instance.new("Frame")
+Window1.Name="Window1"
+Window1.Size=UDim2.fromOffset(170,220)
+Window1.AnchorPoint=Vector2.new(1,0)
+Window1.Position=UDim2.new(1,-8,0,8)
+Window1.BackgroundColor3=COLORS.Window
+Window1.BackgroundTransparency=0.05
+Window1.BorderSizePixel=0
+Window1.ClipsDescendants=true
+Window1.Parent=GUI
+addCorner(Window1,10)
+addStroke(Window1,COLORS.Border,1,0.3)
+
+local bg1=Instance.new("ImageLabel",Window1)
+bg1.Size=UDim2.new(1,0,1,0)
+bg1.BackgroundTransparency=1
+bg1.Image="rbxassetid://135730318591850"
+bg1.ImageTransparency=0.1
+bg1.ScaleType=Enum.ScaleType.Stretch
+addCorner(bg1,10)
+MakeDotsBackground(Window1)
+
+local Header1=Instance.new("Frame")
+Header1.Name="Header"
+Header1.Size=UDim2.new(1,0,0,26)
+Header1.BackgroundTransparency=1
+Header1.Active=true
+Header1.Parent=Window1
+
+local BrandMark1=Instance.new("Frame")
+BrandMark1.Name="BrandMark"
+BrandMark1.Size=UDim2.fromOffset(16,16)
+BrandMark1.Position=UDim2.fromOffset(5,5)
+BrandMark1.BackgroundColor3=Color3.fromRGB(8,20,58)
+BrandMark1.BackgroundTransparency=0.2
+BrandMark1.BorderSizePixel=0
+BrandMark1.ClipsDescendants=true
+BrandMark1.Parent=Header1
+addCorner(BrandMark1,4)
+addStroke(BrandMark1,COLORS.Border,1,0.3)
+
+local BrandImage1=Instance.new("ImageLabel")
+BrandImage1.Name="Logo"
+BrandImage1.Size=UDim2.fromScale(1,1)
+BrandImage1.BackgroundTransparency=1
+BrandImage1.Image="rbxassetid://135730318591850"
+BrandImage1.ScaleType=Enum.ScaleType.Fit
+BrandImage1.Parent=BrandMark1
+addCorner(BrandImage1,4)
+
+makeLabel(Header1,"Title","SUNSET SPAWNER",UDim2.fromOffset(100,16),UDim2.fromOffset(25,5),7,COLORS.White,Enum.Font.GothamBold)
+
+local CloseBtn1=Instance.new("TextButton")
+CloseBtn1.Size=UDim2.fromOffset(12,12)
+CloseBtn1.Position=UDim2.new(1,-12,0,7)
+CloseBtn1.BackgroundColor3=COLORS.Dim
+CloseBtn1.BackgroundTransparency=0.3
+CloseBtn1.Text="✕"
+CloseBtn1.Font=Enum.Font.GothamBold
+CloseBtn1.TextSize=6
+CloseBtn1.TextColor3=COLORS.White
+CloseBtn1.AutoButtonColor=falseCloseBtn1.Parent=Header1
+addCorner(CloseBtn1,3)
+CloseBtn1.MouseButton1Click:Connect(function()GUI:Destroy()end)
+
+local dragging1=false local dragStart1 local startPos1
+Header1.InputBegan:Connect(function(input)
+if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
+dragging1=true;dragStart1=input.Position;startPos1=Window1.Position
+end
+end)
+UserInputService.InputChanged:Connect(function(input)
+if dragging1 and (input.UserInputType==Enum.UserInputType.MouseMovement or input.UserInputType==Enum.UserInputType.Touch)then
+local delta=input.Position-dragStart1
+Window1.Position=UDim2.new(startPos1.X.Scale,startPos1.X.Offset+delta.X,startPos1.Y.Scale,startPos1.Y.Offset+delta.Y)
+end
+end)
+UserInputService.InputEnded:Connect(function(input)
+if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then dragging1=false end
+end)
+
+local Main1=Instance.new("Frame")
+Main1.Name="Main"
+Main1.Size=UDim2.new(1,0,1,-28)
+Main1.Position=UDim2.fromOffset(0,28)
+Main1.BackgroundTransparency=1
+Main1.Parent=Window1
+
+local BalanceCard1=Instance.new("Frame")
+BalanceCard1.Name="Balances"
+BalanceCard1.Size=UDim2.new(1,-6,0,48)
+BalanceCard1.Position=UDim2.fromOffset(3,0)
+BalanceCard1.BackgroundColor3=Color3.fromRGB(10,25,60)
+BalanceCard1.BackgroundTransparency=0.3
+BalanceCard1.BorderSizePixel=0
+BalanceCard1.Parent=Main1
+addCorner(BalanceCard1,5)
+addStroke(BalanceCard1,COLORS.Border,1,0.15)
+makeLabel(BalanceCard1,"Title","VALUTY",UDim2.fromOffset(164,12),UDim2.fromOffset(4,1),5,COLORS.White,Enum.Font.GothamBold)
+
+local function makeBalanceRow1(parent,labelText,yPos)
+local lbl=Instance.new("TextLabel",parent)
+lbl.Size=UDim2.fromOffset(28,10)
+lbl.Position=UDim2.fromOffset(4,yPos)
+lbl.BackgroundTransparency=1
+lbl.Text=labelText
+lbl.TextSize=5
+lbl.TextColor3=COLORS.White
+lbl.Font=Enum.Font.GothamBold
+lbl.TextXAlignment=Enum.TextXAlignment.Left
+local input=Instance.new("TextBox")
+input.Size=UDim2.fromOffset(40,10)
+input.Position=UDim2.fromOffset(36,yPos)
+input.BackgroundColor3=Color3.fromRGB(8,20,58)
+input.BackgroundTransparency=0.4
+input.BorderSizePixel=0
+input.Text=""
+input.PlaceholderText="0"
+input.Font=Enum.Font.Gotham
+input.TextSize=5
+input.TextColor3=COLORS.White
+input.Parent=parent
+addCorner(input,2)
+addStroke(input,COLORS.Border,1,0.3)
+local btn=Instance.new("TextButton")
+btn.Size=UDim2.fromOffset(24,10)
+btn.Position=UDim2.new(1,-26,0,yPos)
+btn.BackgroundColor3=Color3.fromRGB(30,80,200)
+btn.BackgroundTransparency=0.4
+btn.BorderSizePixel=0
+btn.AutoButtonColor=false
+btn.Active=true
+btn.Text="SET"
+btn.TextSize=5
+btn.TextColor3=COLORS.White
+btn.Font=Enum.Font.GothamBold
+btn.Parent=parent
+addCorner(btn,2)
+addStroke(btn,COLORS.Border,1,0.3)
+btn.MouseEnter:Connect(function()btn.BackgroundTransparency=0.2 end)
+btn.MouseLeave:Connect(function()btn.BackgroundTransparency=0.4 end)
+return input,btn
+end
+
+local starsInput1,starsBtn1=makeBalanceRow1(BalanceCard1,"⭐",12)
+starsBtn1.MouseButton1Click:Connect(function()local v=tonumber(starsInput1.Text)or 0 SetStars(v) AddConsoleMessage("⭐ Stars set to "..v, Color3.fromRGB(255,215,0)) end)
+local tonInput1,tonBtn1=makeBalanceRow1(BalanceCard1,"💎",24)
+tonBtn1.MouseButton1Click:Connect(function()local v=tonumber(tonInput1.Text)or 0 SetTON(v) AddConsoleMessage("💎 TON set to "..v, Color3.fromRGB(50,200,255)) end)
+local gemsInput1,gemsBtn1=makeBalanceRow1(BalanceCard1,"🔷",36)
+gemsBtn1.MouseButton1Click:Connect(function()local v=tonumber(gemsInput1.Text)or 0 SetGems(v) AddConsoleMessage("🔷 Gems set to "..v, Color3.fromRGB(100,200,255)) end)
+
+local selectWindow=nil
+local function OpenSelectWindow()
+if selectWindow and selectWindow.Parent then 
+    selectWindow.Visible=not selectWindow.Visible
+    if selectWindow.Visible then AddConsoleMessage("📋 Opening NFT Selector", Color3.fromRGB(80,160,255)) end
+    return 
+end
+selectWindow=CreateSelectWindow()
+AddConsoleMessage("📋 NFT Selector opened", Color3.fromRGB(80,160,255))
+end
+
+local AddBtn=Instance.new("TextButton")
+AddBtn.Size=UDim2.new(0.9,0,0,18)
+AddBtn.Position=UDim2.fromOffset(6,52)
+AddBtn.BackgroundColor3=Color3.fromRGB(30,80,200)
+AddBtn.BackgroundTransparency=0.3
+AddBtn.BorderSizePixel=0
+AddBtn.AutoButtonColor=false
+AddBtn.Active=true
+AddBtn.Text="📋 SELECT NFT"
+AddBtn.TextSize=7
+AddBtn.TextColor3=COLORS.White
+AddBtn.Font=Enum.Font.GothamBold
+AddBtn.Parent=Main1
+addCorner(AddBtn,3)
+addStroke(AddBtn,COLORS.Border,1,0.2)
+AddBtn.MouseEnter:Connect(function()AddBtn.BackgroundTransparency=0.1 end)
+AddBtn.MouseLeave:Connect(function()AddBtn.BackgroundTransparency=0.3 end)
+AddBtn.MouseButton1Click:Connect(OpenSelectWindow)
+
+-- Консоль внизу
+local Console1=Instance.new("ScrollingFrame")
+Console1.Name="Console"
+Console1.Size=UDim2.new(1,-12,0,75)
+Console1.Position=UDim2.fromOffset(6,73)
+Console1.BackgroundColor3=Color3.fromRGB(4,6,16)
+Console1.BackgroundTransparency=0.3
+Console1.BorderSizePixel=0
+Console1.ClipsDescendants=true
+Console1.Active=true
+Console1.ScrollingEnabled=true
+Console1.ScrollingDirection=Enum.ScrollingDirection.Y
+Console1.ElasticBehavior=Enum.ElasticBehavior.WhenScrollable
+Console1.VerticalScrollBarInset=Enum.ScrollBarInset.ScrollBar
+Console1.CanvasSize=UDim2.new(0,0,0,0)
+Console1.AutomaticCanvasSize=Enum.AutomaticSize.None
+Console1.ScrollBarThickness=2
+Console1.ScrollBarImageColor3=COLORS.Dim
+Console1.ZIndex=3
+Console1.Parent=Window1
+addCorner(Console1,4)
+addStroke(Console1,COLORS.Border,1,0.1)
+
+local ConsoleOutput1=Instance.new("TextLabel")
+ConsoleOutput1.Name="ConsoleOutput"
+ConsoleOutput1.Size=UDim2.new(1,-6,0,50)
+ConsoleOutput1.AutomaticSize=Enum.AutomaticSize.Y
+ConsoleOutput1.Position=UDim2.fromOffset(3,2)
+ConsoleOutput1.BackgroundTransparency=1
+ConsoleOutput1.RichText=true
+ConsoleOutput1.Text='<font color="rgb(80,160,255)">&gt;</font> <font color="rgb(160,180,210)">SUNSET SPAWNER READY</font>'
+ConsoleOutput1.TextSize=6
+ConsoleOutput1.Font=Enum.Font.Code
+ConsoleOutput1.TextColor3=COLORS.Dim
+ConsoleOutput1.TextXAlignment=Enum.TextXAlignment.Left
+ConsoleOutput1.TextYAlignment=Enum.TextYAlignment.Top
+ConsoleOutput1.TextWrapped=true
+ConsoleOutput1.ZIndex=4
+ConsoleOutput1.Parent=Console1
+
+local CONSOLE_BOTTOM_PADDING=6
+local function updateConsoleCanvas1()
+if not Console1 or not ConsoleOutput1 then return end
+local ch=ConsoleOutput1.Position.Y.Offset+ConsoleOutput1.AbsoluteSize.Y+CONSOLE_BOTTOM_PADDING
+Console1.CanvasSize=UDim2.new(0,0,0,ch)
+end
+ConsoleOutput1:GetPropertyChangedSignal("AbsoluteSize"):Connect(updateConsoleCanvas1)
+task.defer(updateConsoleCanvas1)
+
+-- === 2 МЕНЮ (СПИСОК NFT) ===
+local function CreateSelectWindow()
+local win=Instance.new("Frame")
+win.Size=UDim2.new(0,280,0,350)
+win.Position=UDim2.new(0.5,-140,0.5,-175)
+win.BackgroundColor3=Color3.fromRGB(4,6,16)
+win.BackgroundTransparency=0.05
+win.BorderSizePixel=0
+win.Parent=GUI
+addCorner(win,10)
+addStroke(win,COLORS.Border,1.5,0.3)
+
+local bgw=Instance.new("ImageLabel",win)
+bgw.Size=UDim2.new(1,0,1,0)
+bgw.BackgroundTransparency=1
+bgw.Image="rbxassetid://135730318591850"
+bgw.ImageTransparency=0.1
+bgw.ScaleType=Enum.ScaleType.Stretch
+addCorner(bgw,10)
+MakeDotsBackground(win)
+
+local hdr=Instance.new("Frame")
+hdr.Size=UDim2.new(1,0,0,28)
+hdr.BackgroundColor3=Color3.fromRGB(8,20,58)
+hdr.BackgroundTransparency=0.3
+hdr.Parent=win
+addCorner(hdr,10)
+
+makeLabel(hdr,"Title","NFT SELECTOR",UDim2.new(0.5,0,1,0),UDim2.fromOffset(10,0),8,COLORS.White,Enum.Font.GothamBold)
+
+local cnt=Instance.new("TextLabel")
+cnt.Size=UDim2.new(0.15,0,1,0)
+cnt.Position=UDim2.new(0.78,0,0,0)
+cnt.BackgroundTransparency=1
+cnt.Text="0"
+cnt.TextColor3=COLORS.Green
+cnt.TextScaled=true
+cnt.Font=Enum.Font.GothamBold
+cnt.TextXAlignment=Enum.TextXAlignment.Center
+cnt.Name="SelectedCount"
+cnt.Parent=hdr
+
+local sc=Instance.new("TextButton")
+sc.Size=UDim2.new(0,18,0,18)
+sc.Position=UDim2.new(1,-22,0,5)
+sc.BackgroundColor3=COLORS.Red
+sc.BackgroundTransparency=0.3
+sc.Text="✕"
+sc.TextColor3=COLORS.White
+sc.TextScaled=true
+sc.Font=Enum.Font.GothamBold
+sc.Parent=hdr
+addCorner(sc,4)
+sc.MouseEnter:Connect(function()sc.BackgroundTransparency=0 end)
+sc.MouseLeave:Connect(function()sc.BackgroundTransparency=0.3 end)
+sc.MouseButton1Click:Connect(function()win.Visible=false AddConsoleMessage("📋 NFT Selector closed", Color3.fromRGB(80,160,255)) end)
+
+local dragging2=false local dragStart2 local startPos2
+hdr.InputBegan:Connect(function(input)
+if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
+dragging2=true;dragStart2=input.Position;startPos2=win.Position
+end
+end)
+UserInputService.InputChanged:Connect(function(input)
+if dragging2 and (input.UserInputType==Enum.UserInputType.MouseMovement or input.UserInputType==Enum.UserInputType.Touch)then
+local delta=input.Position-dragStart2
+win.Position=UDim2.new(startPos2.X.Scale+delta.X/1920,startPos2.X.Offset+delta.X,startPos2.Y.Scale+delta.Y/1080,startPos2.Y.Offset+delta.Y)
+end
+end)
+UserInputService.InputEnded:Connect(function(input)
+if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then dragging2=false end
+end)
+
+local scr=Instance.new("ScrollingFrame")
+scr.Size=UDim2.new(1,-10,1,-55)
+scr.Position=UDim2.fromOffset(5,32)
+scr.BackgroundTransparency=1
+scr.BorderSizePixel=0
+scr.Parent=win
+scr.ScrollBarThickness=3
+scr.ScrollBarImageColor3=COLORS.Dim
+scr.CanvasSize=UDim2.new(0,0,0,0)
+scr.AutomaticCanvasSize=Enum.AutomaticSize.Y
+
+local lay=Instance.new("UIListLayout")
+lay.Padding=UDim.new(0,2)
+lay.SortOrder=Enum.SortOrder.LayoutOrder
+lay.Parent=scr
+
+local bot=Instance.new("Frame")
+bot.Size=UDim2.new(1,0,0,28)
+bot.Position=UDim2.new(0,0,1,-30)
+bot.BackgroundTransparency=1
+bot.Parent=win
+
+local sa=Instance.new("TextButton")
+sa.Size=UDim2.new(0.32,0,1,0)
+sa.Position=UDim2.fromOffset(2,0)
+sa.BackgroundColor3=Color3.fromRGB(0,150,200)
+sa.BackgroundTransparency=0.2
+sa.Text="✅ ALL"
+sa.TextColor3=COLORS.White
+sa.TextScaled=true
+sa.Font=Enum.Font.GothamBold
+sa.Parent=bot
+addCorner(sa,3)
+sa.MouseEnter:Connect(function()sa.BackgroundTransparency=0.05 end)
+sa.MouseLeave:Connect(function()sa.BackgroundTransparency=0.2 end)
+
+local ca=Instance.new("TextButton")
+ca.Size=UDim2.new(0.32,0,1,0)
+ca.Position=UDim2.new(0.34,0,0,0)
+ca.BackgroundColor3=COLORS.Red
+ca.BackgroundTransparency=0.2
+ca.Text="❌ CLEAR"
+ca.TextColor3=COLORS.White
+ca.TextScaled=true
+ca.Font=Enum.Font.GothamBold
+ca.Parent=bot
+addCorner(ca,3)
+ca.MouseEnter:Connect(function()ca.BackgroundTransparency=0.05 end)
+ca.MouseLeave:Connect(function()ca.BackgroundTransparency=0.2 end)
+
+local aa=Instance.new("TextButton")
+aa.Size=UDim2.new(0.32,0,1,0)
+aa.Position=UDim2.new(0.66,0,0,0)
+aa.BackgroundColor3=Color3.fromRGB(0,200,80)
+aa.BackgroundTransparency=0.2
+aa.Text="➕ SPAWN"
+aa.TextColor3=COLORS.White
+aa.TextScaled=true
+aa.Font=Enum.Font.GothamBold
+aa.Parent=bot
+addCorner(aa,3)
+aa.MouseEnter:Connect(function()aa.BackgroundTransparency=0.05 end)
+aa.MouseLeave:Connect(function()aa.BackgroundTransparency=0.2 end)
+
+local selItems=selectedItems
+local amtItems=itemAmounts
+
+local giftList={}
+for name,data in pairs(gifts)do 
+    table.insert(giftList,name)
+end
+table.sort(giftList,function(a,b)return(gifts[a].Price or 0)>(gifts[b].Price or 0)end)
+
+for _,name in ipairs(giftList)do
+local row=Instance.new("Frame")
+row.Size=UDim2.new(1,0,0,26)
+row.BackgroundColor3=Color3.fromRGB(10,18,40)
+row.BackgroundTransparency=0.4
+row.Parent=scr
+addCorner(row,3)
+addStroke(row,COLORS.Border,1,0.2)
+
+local icon=Instance.new("ImageLabel")
+icon.Size=UDim2.new(0,18,0,18)
+icon.Position=UDim2.fromOffset(3,4)
+icon.BackgroundTransparency=1
+if gifts[name]and gifts[name].Image then
+icon.Image="rbxassetid://"..gifts[name].Image
+else
+icon.Image="rbxassetid://135730318591850"
+end
+icon.ScaleType=Enum.ScaleType.Fit
+icon.Parent=row
+addCorner(icon,2)
+
+local nl=Instance.new("TextLabel")
+nl.Size=UDim2.new(0.45,0,1,0)
+nl.Position=UDim2.fromOffset(25,0)
+nl.BackgroundTransparency=1
+nl.Text=name
+nl.TextColor3=COLORS.White
+nl.TextSize=7
+nl.Font=Enum.Font.Gotham
+nl.TextXAlignment=Enum.TextXAlignment.Left
+nl.Parent=row
+
+local pl=Instance.new("TextLabel")
+pl.Size=UDim2.new(0.12,0,1,0)
+pl.Position=UDim2.new(0.55,0,0,0)
+pl.BackgroundTransparency=1
+pl.Text=(gifts[name]and gifts[name].Price and "⭐"..gifts[name].Price)or "⭐0"
+pl.TextColor3=COLORS.Orange
+pl.TextSize=6
+pl.Font=Enum.Font.Gotham
+pl.TextXAlignment=Enum.TextXAlignment.Right
+pl.Parent=row
+
+local ab=Instance.new("TextBox")
+ab.Size=UDim2.new(0,28,0,18)
+ab.Position=UDim2.new(0.68,0,0.15,0)
+ab.BackgroundColor3=Color3.fromRGB(8,20,58)
+ab.BackgroundTransparency=0.3
+ab.Text="1"
+ab.TextColor3=COLORS.White
+ab.TextSize=7
+ab.Font=Enum.Font.GothamBold
+ab.TextXAlignment=Enum.TextXAlignment.Center
+ab.Parent=row
+addCorner(ab,2)
+addStroke(ab,COLORS.Border,1,0.2)
+ab.FocusLost:Connect(function()
+local v=tonumber(ab.Text)or 1
+if v<1 then v=1 end
+ab.Text=tostring(v)
+if selItems[name]then amtItems[name]=v end
+end)
+
+local cb=Instance.new("TextButton")
+cb.Size=UDim2.new(0,20,0,20)
+cb.Position=UDim2.new(0.9,0,0.12,0)
+cb.BackgroundColor3=COLORS.Dim
+cb.BackgroundTransparency=0.2
+cb.Text="✕"
+cb.TextColor3=COLORS.White
+cb.TextScaled=true
+cb.Font=Enum.Font.GothamBold
+cb.Parent=row
+addCorner(cb,3)
+
+local checked=false
+cb.MouseButton1Click:Connect(function()
+checked=not checked
+if checked then
+cb.BackgroundColor3=COLORS.Green
+cb.Text="✓"
+selItems[name]=true
+amtItems[name]=tonumber(ab.Text)or 1
+AddConsoleMessage("📌 Selected: "..name.." x"..(amtItems[name]or 1), Color3.fromRGB(100,255,100))
+else
+cb.BackgroundColor3=COLORS.Dim
+cb.Text="✕"
+selItems[name]=nil
+amtItems[name]=nil
+AddConsoleMessage("📌 Unselected: "..name, Color3.fromRGB(255,150,100))
+end
+local count=0
+for _,__ in pairs(selItems)do count=count+1 end
+local scnt=win:FindFirstChild("SelectedCount")
+if scnt then scnt.Text=tostring(count)end
+end)
+end
+
+local countSel=0
+for _,__ in pairs(selItems)do countSel=countSel+1 end
+cnt.Text=tostring(countSel)
+
+sa.MouseButton1Click:Connect(function()
+local count=0
+for _,row in ipairs(scr:GetChildren())do
+if row:IsA("Frame")then
+local btn=row:FindFirstChildWhichIsA("TextButton")
+if btn and btn.Text=="✕"then 
+    btn:Fire()
+    count=count+1
+end
+end
+end
+AddConsoleMessage("✅ Selected "..count.." items (ALL)", Color3.fromRGB(100,255,100))
+end)
+
+ca.MouseButton1Click:Connect(function()
+local count=0
+for _,row in ipairs(scr:GetChildren())do
+if row:IsA("Frame")then
+local btn=row:FindFirstChildWhichIsA("TextButton")
+if btn and btn.Text=="✓"then 
+    btn:Fire()
+    count=count+1
+end
+end
+end
+AddConsoleMessage("❌ Cleared "..count.." selections", Color3.fromRGB(255,150,100))
+end)
+
+aa.MouseButton1Click:Connect(function()
+local total=0
+for name,_ in pairs(selItems)do
+local count=amtItems[name]or 1
+local success, msg=AddDefaultNFT(name,count)
+total=total+count
+if success then
+AddConsoleMessage("✅ Spawned: "..msg, Color3.fromRGB(100,255,100))
+end
+end
+if total>0 then
+AddConsoleMessage("🎉 Total spawned: "..total.." NFTs", Color3.fromRGB(255,215,0))
+else
+AddConsoleMessage("⚠️ No items selected!", Color3.fromRGB(255,150,100))
+end
+end)
+
+return win
+end
+
+AddConsoleMessage("🚀 SUNSET SPAWNER LOADED!", Color3.fromRGB(80,160,255))
+AddConsoleMessage("📦 NFTs available: "..#giftList, Color3.fromRGB(160,180,210))
+print("Sunset Spawner Loaded! NFT count: "..#giftList)
